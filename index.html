@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>LifeTracker</title>
+<style>
+body { font-family: Arial; text-align: center; background:#f2f2f2; }
+input, button { margin:5px; padding:8px; }
+</style>
+</head>
+<body>
+
+<h1>📊 LifeTracker</h1>
+
+<h2>🎯 Objetivos</h2>
+<input id="obj"><button onclick="addObj()">Adicionar</button>
+<ul id="objs"></ul>
+
+<h2>✅ Tarefas</h2>
+<input id="task"><button onclick="addTask()">Adicionar</button>
+<ul id="tasks"></ul>
+
+<h2>⏱ Estudo</h2>
+<button onclick="start()">Iniciar</button>
+<button onclick="stop()">Parar</button>
+<p id="horas">Horas: 0</p>
+
+<h2>⏳ Contagem Regressiva (minutos)</h2>
+<input id="tempo"><button onclick="contar()">Começar</button>
+<p id="contador"></p>
+
+<h2>📄 Criar Currículo</h2>
+<input id="nome" placeholder="Nome"><br>
+<input id="idade" placeholder="Idade"><br>
+<input id="habilidades" placeholder="Habilidades"><br>
+<button onclick="gerar()">Gerar Currículo</button>
+
+<p id="cv"></p>
+
+<script>
+let horas = 0;
+let inicio = 0;
+
+function addObj(){
+ let val = document.getElementById("obj").value;
+ document.getElementById("objs").innerHTML += "<li>"+val+"</li>";
+}
+
+function addTask(){
+ let val = document.getElementById("task").value;
+ document.getElementById("tasks").innerHTML += "<li>"+val+"</li>";
+}
+
+function start(){ inicio = Date.now(); }
+
+function stop(){
+ let fim = Date.now();
+ horas += (fim - inicio)/3600000;
+ document.getElementById("horas").innerText = "Horas: "+horas.toFixed(2);
+}
+
+function contar(){
+ let tempo = document.getElementById("tempo").value * 60;
+ let el = document.getElementById("contador");
+
+ let x = setInterval(()=>{
+   let min = Math.floor(tempo/60);
+   let sec = tempo%60;
+   el.innerText = min+":"+sec;
+
+   tempo--;
+   if(tempo < 0){
+     clearInterval(x);
+     el.innerText = "Tempo acabou!";
+   }
+ },1000);
+}
+
+function gerar(){
+ let nome = document.getElementById("nome").value;
+ let idade = document.getElementById("idade").value;
+ let hab = document.getElementById("habilidades").value;
+
+ document.getElementById("cv").innerText =
+  "Nome: "+nome+" | Idade: "+idade+" | Habilidades: "+hab;
+}
+</script>
+
+</body>
+</html>
